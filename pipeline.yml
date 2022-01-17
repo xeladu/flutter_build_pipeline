@@ -14,18 +14,21 @@ stages:
     displayName: Android
     steps: 
 
+    # replace "key.properties" with your secure file name
     - task: DownloadSecureFile@1
       name: keyprop
       displayName: Download key properties file
       inputs:
-        secureFile: 'key.properties'
+        secureFile: 'key.properties' 
 
+    # replace "key.jks" with your secure file name
     - task: DownloadSecureFile@1
       name: key
       displayName: Download signing key
       inputs:
         secureFile: 'key.jks'
 
+    # adjust paths and file names here
     - task: Bash@3
       displayName: Copy config files
       inputs:
@@ -80,6 +83,7 @@ stages:
     displayName: iOS
     steps: 
           
+    # replace "iosKey" and "yourPwd" with your secure file name and password
     - task: InstallAppleCertificate@2
       displayName: Install certificate
       inputs:
@@ -87,6 +91,7 @@ stages:
         certPwd: 'yourPwd'
         keychain: 'temp'
     
+    # replace "ios_Profile.mobileprovision" with your secure file name
     - task: InstallAppleProvisioningProfile@1
       displayName: Install provisioning file
       inputs:
@@ -100,6 +105,7 @@ stages:
         channel: 'stable'
         version: 'latest'
 
+    # adjust path to the *.plist file
     - task: FlutterBuild@0
       displayName: "Build application"
       inputs:
@@ -112,7 +118,6 @@ stages:
       inputs:
         generateCodeCoverageReport: true
         projectDirectory: '$(Build.SourcesDirectory)'
-
 
     - task: CopyFiles@2
       displayName: "Copy app to staging directory"
