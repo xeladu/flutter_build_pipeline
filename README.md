@@ -1,5 +1,7 @@
 This repo contains files that are part of the post at [Building Flutter apps with Azure DevOps - xeladu.medium.com](https://xeladu.medium.com/building-flutter-apps-with-azure-devops-eaf9ae7ad158).
 
+If you want to know more about testing for Flutter apps, check out [my article series on Medium](https://xeladu.medium.com/list/test-your-flutter-app-aabad9825b7f).
+
 # Content
 
 The repository contains a build pipeline in a YAML file that can be integrated in any existing Flutter project that should be built using Azure DevOps.
