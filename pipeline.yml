@@ -1,11 +1,10 @@
 trigger:
   - master
 
-pool:
-  vmImage: macOS-11
-
 stages:
 - stage: AndroidStage
+  pool:
+    vmImage: 'ubuntu-latest'
   dependsOn: []
   displayName: Android
   jobs:
@@ -47,6 +46,12 @@ stages:
         channel: 'stable'
         version: 'latest'
 
+    - task: FlutterCommand@0
+      displayName: "Run Flutter diagnostics"
+      inputs:
+        projectDirectory: '.'
+        arguments: 'doctor -v'
+
     - task: FlutterBuild@0
       displayName: "Build application"
       inputs:
@@ -75,6 +80,8 @@ stages:
         publishLocation: 'Container'
 
 - stage: iOSStage
+  pool: 
+    vmImage: 'macos-latest'
   dependsOn: []
   displayName: iOS
   jobs:
@@ -105,6 +112,12 @@ stages:
         channel: 'stable'
         version: 'latest'
 
+    - task: FlutterCommand@0
+      displayName: "Run Flutter diagnostics"
+      inputs:
+        projectDirectory: '.'
+        arguments: 'doctor -v'
+
     # adjust path to the *.plist file
     - task: FlutterBuild@0
       displayName: "Build application"
@@ -132,4 +145,62 @@ stages:
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'IPA'
+        publishLocation: 'Container'
+        
+- stage: winStage
+  pool: 
+    vmImage: 'windows-latest'
+  dependsOn: []
+  displayName: Windows
+  jobs:
+ 
+  - job: windowsJob
+    displayName: Windows
+    steps: 
+        
+    - task: FlutterInstall@0
+      displayName: "Install Flutter SDK"
+      inputs:
+        mode: 'auto'
+        channel: 'stable'
+        version: 'latest'
+    
+    - task: FlutterCommand@0
+      displayName: "Run Flutter diagnostics"
+      inputs:
+        projectDirectory: '.'
+        arguments: 'doctor -v'
+
+    - task: FlutterBuild@0
+      displayName: "Build application"
+      inputs:
+        target: windows
+        projectDirectory: '$(Build.SourcesDirectory)'
+
+    - task: FlutterTest@0
+      displayName: "Run unit tests"
+      inputs:
+        generateCodeCoverageReport: true
+        projectDirectory: '$(Build.SourcesDirectory)'
+
+    # install package msix -> https://pub.dev/packages/msix
+    # provide signing information in pubspec.yaml -> see https://github.com/YehudaKremer/msix/tree/main/example#without-signing
+    - task: FlutterCommand@0
+      inputs:
+        projectDirectory: '$(Build.SourcesDirectory)'
+        arguments: 'pub run msix:create --build-windows false'
+
+    - task: CopyFiles@2
+      displayName: "Copy app to staging directory"
+      inputs:
+        sourceFolder: '$(Agent.BuildDirectory)'
+        contents: '**/*.msix'
+        targetFolder: '$(Build.StagingDirectory)'
+        flattenFolders: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: "Publish MSIX"
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'Windows'
         publishLocation: 'Container'
