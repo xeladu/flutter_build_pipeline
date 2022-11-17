@@ -6,6 +6,14 @@ If you want to know more about testing for Flutter apps, check out [my article s
 
 The repository contains a build pipeline in a YAML file that can be integrated in any existing Flutter project that should be built using Azure DevOps.
 
+|Platform|File format|Signing configuration|
+|-|-|-|
+|Android|AAB|[Link](https://docs.flutter.dev/deployment/android#signing-the-app)|
+|iOS|IPA|[Link1](https://docs.flutter.dev/deployment/ios#review-xcode-project-settings), [Link2](https://quarksoftware.my.site.com/quarkknowledgebase/s/article/How-to-create-IOS-provisioning-Profiles-1639097525913?language=en_US)|
+|Windows|MSIX*|[Link](https://github.com/YehudaKremer/msix#%EF%B8%8F-signing-options)|
+
+\* Requires package [MSIX](https://pub.dev/packages/msix) in Flutter application
+
 # Support
 
 If you like this post or my work in general, feel free to support me in any way ❤
