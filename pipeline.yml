@@ -186,6 +186,7 @@ stages:
     # install package msix -> https://pub.dev/packages/msix
     # provide signing information in pubspec.yaml -> see https://github.com/YehudaKremer/msix/tree/main/example#without-signing
     - task: FlutterCommand@0
+      displayName: "Create MSIX file"
       inputs:
         projectDirectory: '$(Build.SourcesDirectory)'
         arguments: 'pub run msix:create --build-windows false'
