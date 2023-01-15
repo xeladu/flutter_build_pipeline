@@ -1,4 +1,7 @@
-This repo contains files that are part of the post at [Building Flutter apps with Azure DevOps](https://xeladu.medium.com/building-flutter-apps-with-azure-devops-eaf9ae7ad158) on [Medium](https://xeladu.medium.com).
+# Sources
+
+[Build Flutter apps for iOS, Android, and Windows with Azure DevOps on QuickCoder](https://quickcoder.org/flutter_build_pipeline/)<br/>
+[Build Flutter apps for iOS, Android, and Windows with Azure DevOps on Medium](https://xeladu.medium.com/building-flutter-apps-with-azure-devops-eaf9ae7ad158)
 
 # Content
 
